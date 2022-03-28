@@ -6,9 +6,6 @@ import numpy as np
 import threading
 import tensorflow as tf
 
-label = "Warmup...."
-n_time_steps = 10
-lm_list = []
 
 mpPose = mp.solutions.pose
 pose = mpPose.Pose()
@@ -20,7 +17,7 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 def make_landmark_timestep(results):
     c_lm = []
-    for id, lm in enumerate(results.pose_landmarks.landmark):
+    for lm in results.pose_landmarks.landmark:
         c_lm.append(lm.x)
         c_lm.append(lm.y)
         c_lm.append(lm.z)
@@ -30,7 +27,7 @@ def make_landmark_timestep(results):
 
 def draw_landmark_on_image(mpDraw, results, img):
     mpDraw.draw_landmarks(img, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
-    for id, lm in enumerate(results.pose_landmarks.landmark):
+    for lm in results.pose_landmarks.landmark:
         h, w, c = img.shape
         print(id, lm)
         cx, cy = int(lm.x * w), int(lm.y * h)
@@ -70,7 +67,10 @@ def detect(model, lm_list):
 
 
 i = 0
-warmup_frames = 60
+warmup_frames = 20
+label = "Warmup...."
+n_time_steps = 10
+lm_list = []
 
 while True:
 
