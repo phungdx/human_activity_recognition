@@ -16,7 +16,7 @@ no_of_frames = 600
 
 def make_landmark_timesteps(results):
     c_lm = []
-    for idx, lm in enumerate(results.pose_landmarks.landmark):
+    for lm in results.pose_landmarks.landmark:
         c_lm.append(lm.x)
         c_lm.append(lm.y)
         c_lm.append(lm.z)
@@ -28,7 +28,7 @@ def draw_landmark_on_image(mpDraw, results, frame):
     mpDraw.draw_landmarks(frame, results.pose_landmarks, mpPose.POSE_CONNECTIONS)
     for lm in results.pose_landmarks.landmark:
         h, w, c = frame.shape
-        cx, cy = int(lm.x + w), int(lm.y) + h
+        cx, cy = int(lm.x + w), int(lm.y + h)
         cv2.circle(frame, (cx, cy), 10, (0, 0, 255), cv2.FILLED)
     return frame
 
